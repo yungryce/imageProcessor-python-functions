@@ -1,16 +1,215 @@
 {
   "project_identity": {
-    "type": "serverless",
-    "scope": "application",
-    "is_independent": true
+    "name": "Image Processor Function App",
+    "type": "project",
+    "scope": "serverless",
+    "description": "Serverless Azure Function App for intelligent image upload, compression, and storage using Azure Blob Storage with automatic optimization algorithms",
+    "is_independent": true,
+    "version": "1.0.0",
+    "curriculum_stage": "advanced"
   },
   "tech_stack": {
     "primary": ["Azure Functions", "Python 3.10+", "Azure Blob Storage"],
-    "secondary": ["GitHub Actions", "Pillow", "Azure CLI"],
-    "key_libraries": ["azure-functions", "azure-storage-blob", "Pillow"]
+    "secondary": ["Pillow (PIL)", "GitHub Actions", "Azure CLI", "RESTful APIs"],
+    "key_libraries": ["azure-functions", "azure-storage-blob", "Pillow", "BytesIO", "logging"],
+    "development_tools": ["Azure Functions Core Tools", "Visual Studio Code", "Git", "Azure Storage Explorer"],
+    "testing_frameworks": ["pytest", "Azure Storage Emulator", "Postman"]
   },
   "skill_manifest": {
-    "technical": ["Serverless Architecture", "Image Processing", "CI/CD", "Cloud Storage"],
-    "domain": ["Cloud Development", "DevOps", "Media Processing"]
+    "technical": [
+      "Serverless Architecture",
+      "Image Processing Algorithms",
+      "Cloud Storage Integration",
+      "RESTful API Development",
+      "File Upload Handling",
+      "Compression Algorithms",
+      "Error Handling",
+      "Performance Optimization",
+      "CI/CD Pipeline"
+    ],
+    "domain": [
+      "Media Processing",
+      "Cloud Development",
+      "Storage Management",
+      "Web API Design",
+      "Digital Asset Management",
+      "Cost Optimization"
+    ],
+    "professional": [
+      "DevOps Practices",
+      "Documentation Standards",
+      "Code Organization",
+      "Production Deployment",
+      "Performance Monitoring"
+    ],
+    "competency_level": "advanced"
+  },
+  "components": {
+    "image_processor": {
+      "type": "service",
+      "path": "function_app.py",
+      "description": "Main Azure Function handling image upload, compression, and storage operations",
+      "dependencies": ["azure-functions", "azure-storage-blob", "Pillow"],
+      "interfaces": ["upload_image", "get_image", "list_images", "compress_image"]
+    },
+    "compression_engine": {
+      "type": "utility",
+      "path": "function_app.py#compress_image",
+      "description": "Intelligent image compression algorithm with quality optimization",
+      "dependencies": ["Pillow", "BytesIO"],
+      "interfaces": ["quality_adjustment", "format_preservation", "size_optimization"]
+    },
+    "storage_manager": {
+      "type": "service",
+      "path": "function_app.py#ensure_container_exists",
+      "description": "Azure Blob Storage container and file management service",
+      "dependencies": ["azure-storage-blob"],
+      "interfaces": ["container_creation", "blob_upload", "blob_retrieval"]
+    },
+    "api_endpoints": {
+      "type": "interface",
+      "path": "function_app.py",
+      "description": "RESTful API endpoints for image operations",
+      "dependencies": ["azure-functions"],
+      "interfaces": ["http_upload", "http_retrieval", "http_listing"]
+    }
+  },
+  "topics": [
+    "Serverless Computing",
+    "Image Processing",
+    "Cloud Storage",
+    "RESTful APIs",
+    "File Upload Handling",
+    "Compression Algorithms",
+    "Azure Functions",
+    "Blob Storage",
+    "Media Optimization",
+    "Performance Tuning"
+  ],
+  "skillLevel": "advanced",
+  "projectStructure": {
+    "architecture_pattern": "serverless-microservice",
+    "directory_structure": {
+      "root": "Azure Function App with integrated image processing",
+      "workflows": "GitHub Actions CI/CD automation",
+      "documentation": "Comprehensive technical documentation"
+    },
+    "key_files": [
+      {
+        "path": "function_app.py",
+        "purpose": "Main Azure Function with image processing endpoints and compression logic"
+      },
+      {
+        "path": "host.json",
+        "purpose": "Azure Functions runtime configuration and scaling settings"
+      },
+      {
+        "path": "requirements.txt",
+        "purpose": "Python dependencies including Azure SDK and Pillow imaging library"
+      }
+    ]
+  },
+  "outcomes": {
+    "technicalSkills": [
+      "Azure Functions development and deployment",
+      "Image processing with Pillow library",
+      "Azure Blob Storage integration",
+      "RESTful API design and implementation",
+      "File upload and validation handling",
+      "Compression algorithm implementation",
+      "Performance optimization techniques",
+      "CI/CD pipeline automation"
+    ],
+    "softSkills": [
+      "Problem-solving with media processing challenges",
+      "Performance optimization thinking",
+      "User experience consideration for file uploads",
+      "Cost-conscious cloud development"
+    ],
+    "career_preparation": [
+      "Cloud Developer",
+      "DevOps Engineer",
+      "Backend Developer",
+      "Solutions Architect",
+      "Media Processing Engineer"
+    ],
+    "certifications": [
+      "Azure Developer Associate",
+      "Azure Solutions Architect Expert",
+      "Azure DevOps Engineer Expert"
+    ]
+  },
+  "prerequisites": [
+    "Python programming fundamentals",
+    "HTTP protocol understanding",
+    "Basic image format knowledge",
+    "Cloud computing concepts",
+    "RESTful API principles",
+    "File system operations"
+  ],
+  "associatedProjects": {
+    "related": [
+      "Email_FA",
+      "authentication-FA",
+      "startstopvm"
+    ],
+    "dependencies": [
+      "Azure Storage Account setup",
+      "Azure Functions runtime configuration"
+    ],
+    "enables": [
+      "Full-stack web applications with media upload",
+      "Content management systems",
+      "Social media platforms with image sharing"
+    ]
+  },
+  "files": {
+    "authors_file": "AUTHORS.md",
+    "license_file": "LICENSE.txt",
+    "readme_file": "README.md",
+    "requirements_file": "requirements.txt",
+    "documentation_files": [
+      "ARCHITECTURE.md",
+      "SKILLS-INDEX.md"
+    ],
+    "test_files": []
+  },
+  "assessment": {
+    "evaluation_criteria": [
+      "Image compression algorithm effectiveness",
+      "API endpoint functionality and design",
+      "Error handling and validation implementation",
+      "Code organization and modularity",
+      "Performance optimization results",
+      "Documentation quality and completeness"
+    ],
+    "deliverables": [
+      "Working Azure Function App with image processing",
+      "RESTful API for image operations",
+      "Intelligent compression system",
+      "CI/CD automation pipeline",
+      "Comprehensive technical documentation"
+    ],
+    "peer_review": false
+  },
+  "metadata": {
+    "created_date": "2024-01-01",
+    "last_updated": "2025-06-24",
+    "contributors": [
+      "Chigbu Joshua"
+    ],
+    "tags": [
+      "azure-functions",
+      "serverless",
+      "image-processing",
+      "blob-storage",
+      "pillow",
+      "compression",
+      "rest-api",
+      "media-upload",
+      "cloud-native"
+    ],
+    "difficulty_rating": 8,
+    "estimated_hours": 32
   }
 }

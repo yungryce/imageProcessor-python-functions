@@ -1,113 +1,194 @@
-# Azure Function App: Image Upload and Compression
+<p align="center">
+  <img src="https://img.shields.io/badge/Azure_Functions-2.0+-0062AD?logo=microsoftazure" alt="Azure Functions">
+  <img src="https://img.shields.io/badge/Python-3.10+-3776AB?logo=python" alt="Python">
+  <img src="https://img.shields.io/badge/Pillow-Image_Processing-orange" alt="Pillow">
+  <img src="https://img.shields.io/badge/Status-Active-success" alt="Status">
+</p>
 
-This Azure Function App allows users to upload images, which are then compressed and stored in Azure Blob Storage. Users can also retrieve the compressed images via a provided endpoint.
+<div align="center">
+  <h1>🖼️ Image Processor Function App</h1>
+  <p><em>Serverless Image Upload, Compression & Storage System</em></p>
+</div>
 
-## Features
+---
 
-- Upload images via HTTP POST requests.
-- Compress uploaded images to ensure they do not exceed a specified size.
-- Store compressed images in Azure Blob Storage.
-- Fetch images from Azure Blob Storage via HTTP GET requests.
-- List all available images in storage.
-- Automatic container creation if it doesn't exist.
-- Preserves original image format when possible.
-- MIME type detection for proper content serving.
+## 📋 Table of Contents
+- [📖 Overview](#-overview)
+- [🎯 Learning Objectives](#-learning-objectives)
+- [🛠️ Tech Stack](#️-tech-stack)
+- [📁 Project Structure](#-project-structure)
+- [🚀 Getting Started](#-getting-started)
+- [💡 Usage](#-usage)
+- [🏆 Key Features](#-key-features)
+- [📚 Resources](#-resources)
+- [👥 Contributors](#-contributors)
 
-## Prerequisites
+## 📖 Overview
 
-- An Azure subscription.
-- Azure SDK for Python.
-- Azure Function App setup.
+This serverless Azure Function App provides a comprehensive solution for image upload, compression, and storage using Azure Blob Storage. The system automatically compresses uploaded images to optimize storage costs while maintaining visual quality, demonstrating advanced cloud-native patterns for media processing applications.
 
-## Configuration
+Built with modern serverless architecture principles, this application showcases efficient image processing workflows, automatic scaling, and cost-effective storage management. The system handles various image formats, implements intelligent compression algorithms, and provides RESTful APIs for seamless integration with web and mobile applications.
 
-### Environment Variables
+## 🎯 Learning Objectives
 
-Make sure to set the following environment variables in your Azure Function App configuration:
+Through this project, you will master:
 
-- **AzureWebJobsStorage**: Your Azure Blob Storage connection string.
+- **Serverless Image Processing**: Build and deploy Azure Functions for media handling
+- **Cloud Storage Integration**: Implement Azure Blob Storage for scalable file management
+- **Image Compression Algorithms**: Apply Pillow library for intelligent image optimization
+- **RESTful API Design**: Create endpoints for upload, retrieval, and listing operations
+- **Error Handling**: Implement robust validation and exception management
+- **Performance Optimization**: Balance file size reduction with visual quality preservation
+- **CI/CD Automation**: Deploy serverless applications with GitHub Actions
 
-### Python Packages
+## 🛠️ Tech Stack
 
-Ensure that the following Python packages are included in your Function App:
+**Core Technologies:**
+- **Azure Functions**: Serverless compute platform for event-driven processing
+- **Python 3.10+**: Primary programming language with advanced image processing
+- **Azure Blob Storage**: Scalable cloud storage for image files and media assets
 
-- `azure-functions`
-- `azure-storage-blob`
-- `Pillow` (PIL)
+**Development Tools:**
+- **Pillow (PIL)**: Advanced Python imaging library for compression and manipulation
+- **Azure Storage SDK**: Comprehensive blob storage client library
+- **GitHub Actions**: Automated CI/CD pipeline for serverless deployment
+- **Azure Functions Core Tools**: Local development and testing environment
 
-## Functionality
+## 📁 Project Structure
 
-### Upload Image
+```
+imageProcessor-FA/
+├── function_app.py          # Main Azure Function with HTTP endpoints
+├── host.json               # Function app runtime configuration
+├── requirements.txt        # Python dependencies and imaging libraries
+├── .github/
+│   └── workflows/          # CI/CD pipeline automation
+├── ARCHITECTURE.md         # System design and processing workflow
+├── SKILLS-INDEX.md        # Technical skills and competencies catalog
+└── README.md              # Project documentation
+```
 
-The `upload_image` function processes image uploads. It performs the following actions:
+## 🚀 Getting Started
 
-1. Receives an image file through an HTTP POST request.
-2. Compresses the image using the `compress_image` function.
-3. Uploads the compressed image to Azure Blob Storage.
+### Prerequisites
 
-- **Endpoint**: `/upload-image`
-- **HTTP Method**: `POST`
-- **Request Format**: Form-data containing a file field named `file`.
-- **File Size Limit**: 10MB for initial upload before compression.
+- **Azure Account**: Active Azure subscription with Functions service enabled
+- **Python 3.10+**: Local development environment with pip package manager
+- **Azure Functions Core Tools**: For local testing and deployment
+- **Azure Storage Account**: Blob storage for image file management
+- **Git**: Version control system for code management
 
-### Get Image
+### Installation
 
-The `get_image` function retrieves a specified image from Azure Blob Storage. It performs the following actions:
+1. **Clone the repository**:
+   ```bash
+   git clone <repository-url>
+   cd imageProcessor-FA
+   ```
 
-1. Fetches the image from the Blob Storage using the provided image name.
-2. Returns the image as an HTTP response.
+2. **Install dependencies**:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-- **Endpoint**: `/get-image/{image}`
-- **HTTP Method**: `GET`
-- **Path Parameter**: `image` - The name of the image file to fetch.
+3. **Configure environment variables**:
+   ```bash
+   # Create local.settings.json for local development
+   {
+     "IsEncrypted": false,
+     "Values": {
+       "AzureWebJobsStorage": "your-storage-connection-string",
+       "FUNCTIONS_WORKER_RUNTIME": "python"
+     }
+   }
+   ```
 
-### List Images
+### Running the Project
 
-The `list_images` function retrieves a list of all images stored in the blob storage container.
+1. **Local Development**:
+   ```bash
+   func start
+   ```
 
-- **Endpoint**: `/list-images`
-- **HTTP Method**: `GET`
-- **Response Format**: JSON containing an array of image filenames.
+2. **Deploy to Azure**:
+   ```bash
+   func azure functionapp publish <your-function-app-name>
+   ```
 
-## Compression Logic
+3. **Test Image Upload**:
+   ```bash
+   curl -X POST "http://localhost:7071/api/upload-image" \
+        -F "file=@your-image.jpg"
+## 💡 Usage
 
-The `compress_image` function compresses uploaded images to ensure they are below a specified size (20 KB by default). The compression quality is adjusted iteratively until the desired size is achieved or the quality falls below 10.
+### Image Upload API
 
-## Architecture
+**Upload and compress images with automatic optimization:**
 
-For a detailed overview of the application architecture, see [ARCHITECTURE.md](./ARCHITECTURE.md).
+```bash
+# Upload image via HTTP POST
+curl -X POST "http://localhost:7071/api/upload-image" \
+     -F "file=@path/to/your/image.jpg"
 
-For detailed information about the architecture of this project, please refer to the [ARCHITECTURE.md](ARCHITECTURE.md) document.
+# Response: Success message with compressed image details
+```
 
-## Skills Demonstrated
+**Endpoint Details:**
+- **URL**: `/upload-image`
+- **Method**: `POST`
+- **Content-Type**: `multipart/form-data`
+- **File Parameter**: `file`
+- **Max Size**: 10MB (before compression)
+- **Supported Formats**: JPEG, PNG, GIF, TIFF, BMP
 
-This project demonstrates several key skills in cloud development and serverless architecture. For a detailed mapping of skills to specific implementations, see [SKILLS-INDEX.md](./SKILLS-INDEX.md).
+### Image Retrieval API
 
-## Logging
+**Fetch stored images from blob storage:**
 
-Logging is set up to provide feedback on image processing operations. You can view logs in the Azure portal under the Function App's "Log stream".
+```bash
+# Get specific image
+curl "http://localhost:7071/api/get-image/your-image.jpg"
 
-## Troubleshooting
+# List all available images
+curl "http://localhost:7071/api/list-images"
+```
 
-- Ensure that the environment variable for the connection string is correctly set.
-- Verify that the image being uploaded is valid and supported.
-- Check Azure logs for detailed error messages if image upload or retrieval fails.
+### Compression Logic
 
-## CI/CD
+The system intelligently compresses images using the following algorithm:
+- **Target Size**: 20KB maximum per image
+- **Quality Adjustment**: Iterative quality reduction (95% → 90% → 85%...)
+- **Minimum Quality**: 10% (prevents over-compression)
+- **Format Preservation**: Maintains original image format when possible
 
-This project uses GitHub Actions for continuous integration and deployment to Azure Functions. The workflow automatically deploys changes pushed to the master branch.
+## 🏆 Key Features
 
-## License
+- **Intelligent Image Compression**: Automatic size optimization while preserving visual quality
+- **Multi-Format Support**: Handles JPEG, PNG, GIF, TIFF, and BMP image formats
+- **Scalable Storage**: Azure Blob Storage integration for unlimited capacity
+- **RESTful API Design**: Clean HTTP endpoints for upload, retrieval, and listing
+- **Automatic Container Management**: Creates storage containers dynamically as needed
+- **Error Handling & Validation**: Comprehensive input validation and exception management
+- **MIME Type Detection**: Proper content-type headers for image serving
+- **CI/CD Integration**: Automated deployment with GitHub Actions
+- **Performance Monitoring**: Built-in logging and Azure monitoring integration
+- **Cost Optimization**: Efficient compression reduces storage costs significantly
 
-This project is licensed under the MIT License.
+## 📚 Resources
 
+- [Azure Functions Documentation](https://docs.microsoft.com/azure/azure-functions/)
+- [Azure Blob Storage Guide](https://docs.microsoft.com/azure/storage/blobs/)
+- [Pillow (PIL) Documentation](https://pillow.readthedocs.io/)
+- [Python Azure SDK](https://docs.microsoft.com/python/api/overview/azure/)
+- [GitHub Actions for Azure](https://docs.microsoft.com/azure/developer/github/github-actions)
+- [SKILLS-INDEX.md](./SKILLS-INDEX.md) - Detailed technical skills catalog
+- [ARCHITECTURE.md](./ARCHITECTURE.md) - System design and processing workflow
 
-## Helpful CLI commands
-### To fetch app settings
-func azure functionapp fetch-app-settings <APP_NAME>
+## 👥 Contributors
 
-### To deploy function app
-func azure functionapp publish <APP_NAME>
+**Chigbu Joshua**
+- 📧 Email: [chigbujoshua@yahoo.com](mailto:chigbujoshua@yahoo.com)
+- 🐙 GitHub: [@yungryce](https://github.com/yungryce)
+- 🎯 Role: Primary Author, Project Maintainer
 
-### To reference key from key vault
-@Microsoft.KeyVault(SecretUri=https://.vault.azure.net/secrets//)
+*This project demonstrates advanced serverless image processing and cloud storage integration patterns for modern web applications.*
